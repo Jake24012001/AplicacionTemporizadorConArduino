@@ -25,6 +25,12 @@ namespace AplicacionTemporizadorConArduino
         [Obsolete]
         private async void StartTimerBtn_Clicked(object sender, EventArgs e)
         {
+            if (_stream == null || !_stream.CanWrite)
+            {
+                await DisplayAlert("Bluetooth", "Primero debes conectarte al HC-05", "OK");
+                return;
+            }
+
             if (countdownTime <= 0) return;
 
             isTimerRunning = true;
