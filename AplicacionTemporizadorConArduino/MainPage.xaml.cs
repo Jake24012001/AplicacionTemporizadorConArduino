@@ -1,10 +1,7 @@
 ﻿using InTheHand.Net.Sockets;
-using InTheHand.Net.Bluetooth;
 using Microsoft.Maui.Controls;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AplicacionTemporizadorConArduino
 {
@@ -80,67 +77,24 @@ namespace AplicacionTemporizadorConArduino
             await SendCommandToArduino("T24");
         }
 
-        private async void ConnectBluetoothBtn_Clicked(object sender, EventArgs e)
-        {
-            try
-            {
-                _client = new BluetoothClient();
-                var devices = _client.DiscoverDevices();
-
-                var hc05 = devices.FirstOrDefault(d => d.DeviceName.Contains("HC-05"));
-                if (hc05 == null)
-                {
-                    await DisplayAlert("Bluetooth", "HC-05 no encontrado", "OK");
-                    return;
-                }
-
-                if (!hc05.Authenticated)
-                {
-                    BluetoothSecurity.PairRequest(hc05.DeviceAddress, "1234"); // Cambia el PIN si es necesario
-                }
-
-                _client.Connect(hc05.DeviceAddress, BluetoothService.SerialPort);
-                _stream = _client.GetStream();
-
-                await DisplayAlert("Bluetooth", "Conectado al HC-05", "OK");
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", ex.Message, "OK");
-            }
-        }
-
-        private async void DisconnectBluetoothBtn_Clicked(object sender, EventArgs e)
-        {
-            if (_stream != null)
-            {
-                _stream.Close();
-                _stream = null;
-            }
-
-            if (_client != null)
-            {
-                _client.Close();
-                _client = null;
-            }
-
-            await DisplayAlert("Bluetooth", "Desconectado del HC-05", "OK");
-        }
-
+        // Quedó pendiente implementar el método para enviar comandos al Arduino
         private async Task SendCommandToArduino(string command)
         {
             if (_stream != null && _stream.CanWrite)
             {
-                try
-                {
-                    var writer = new StreamWriter(_stream) { AutoFlush = true };
-                    await writer.WriteLineAsync(command);
-                }
-                catch (Exception ex)
-                {
-                    await DisplayAlert("Error", "No se pudo enviar el comando: " + ex.Message, "OK");
-                }
+                byte[] buffer = System.Text.Encoding.ASCII.GetBytes(command);
+                await _stream.WriteAsync(buffer, 0, buffer.Length);
             }
+        }
+
+        private void DisconnectBluetoothBtn_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ConnectBluetoothBtn_Clicked(object sender, EventArgs e)
+        {
+
         }
     }
 }

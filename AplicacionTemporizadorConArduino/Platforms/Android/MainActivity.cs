@@ -1,37 +1,26 @@
-﻿using Android;
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using AndroidX.Core.App;
-using AndroidX.Core.Content;
+using Microsoft.Maui;
 
 namespace AplicacionTemporizadorConArduino
 {
     [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true,
-          ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
-    public partial class MainActivity : MauiAppCompatActivity
+              ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation |
+                                     ConfigChanges.UiMode | ConfigChanges.ScreenLayout |
+                                     ConfigChanges.SmallestScreenSize)]
+    public class MainActivity : MauiAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
-            RequestBluetoothPermissions();
+            Microsoft.Maui.ApplicationModel.Platform.Init(this, savedInstanceState);
         }
 
-        private void RequestBluetoothPermissions()
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.S)
-            {
-                if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.BluetoothScan) != Permission.Granted ||
-                    ContextCompat.CheckSelfPermission(this, Manifest.Permission.BluetoothConnect) != Permission.Granted)
-                {
-                    ActivityCompat.RequestPermissions(this, new[]
-                    {
-                        Manifest.Permission.BluetoothScan,
-                        Manifest.Permission.BluetoothConnect
-                    }, 0);
-                }
-            }
+            Microsoft.Maui.ApplicationModel.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }
