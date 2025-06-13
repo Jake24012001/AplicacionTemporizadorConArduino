@@ -1,4 +1,5 @@
-﻿using InTheHand.Net.Sockets;
+﻿using InTheHand.Net.Bluetooth;
+using InTheHand.Net.Sockets;
 using Microsoft.Maui.Controls;
 using System.Diagnostics;
 using System.IO;
@@ -86,15 +87,73 @@ namespace AplicacionTemporizadorConArduino
                 await _stream.WriteAsync(buffer, 0, buffer.Length);
             }
         }
-
-        private void DisconnectBluetoothBtn_Clicked(object sender, EventArgs e)
+        private async void ConnectBluetoothBtn_Clicked(object sender, EventArgs e)
         {
+            try
+            {
+                StatusLabel.Text = "Buscando...";
+                StatusLabel.TextColor = Colors.DarkOrange;
 
+                // Ejecutar búsqueda en un hilo separado
+                var device = await Task.Run(() =>
+                {
+                    _client = new BluetoothClient();
+                    var devices = _client.DiscoverDevices();
+                    return devices.FirstOrDefault(d => d.DeviceName.Contains("HC-05"));
+                });
+
+                if (device == null)
+                {
+                    StatusLabel.Text = "HC-05 no encontrado";
+                    StatusLabel.TextColor = Colors.Red;
+                    await DisplayAlert("Bluetooth", "No se encontró el dispositivo HC-05.", "OK");
+                    return;
+                }
+
+                // Conectar de forma asíncrona
+                await Task.Run(() =>
+                {
+                    _client.Connect(device.DeviceAddress, BluetoothService.SerialPort);
+                    _stream = _client.GetStream();
+                });
+
+                StatusLabel.Text = "Conectado";
+                StatusLabel.TextColor = Colors.Green;
+                await DisplayAlert("Bluetooth", "Conexión establecida con HC-05", "OK");
+            }
+            catch (Exception ex)
+            {
+                StatusLabel.Text = "Error al conectar";
+                StatusLabel.TextColor = Colors.Red;
+                await DisplayAlert("Error", $"Fallo la conexión: {ex.Message}", "OK");
+            }
+        }
+        private async void DisconnectBluetoothBtn_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_stream != null)
+                {
+                    _stream.Close();
+                    _stream = null;
+                }
+
+                if (_client != null)
+                {
+                    _client.Close();
+                    _client = null;
+                }
+
+                StatusLabel.Text = "Desconectado";
+                StatusLabel.TextColor = Colors.DarkRed;
+                await DisplayAlert("Bluetooth", "Desconexión exitosa", "OK");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"Fallo al desconectar: {ex.Message}", "OK");
+            }
         }
 
-        private void ConnectBluetoothBtn_Clicked(object sender, EventArgs e)
-        {
 
-        }
     }
 }
