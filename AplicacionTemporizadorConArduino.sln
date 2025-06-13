@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36203.30 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AplicacionTemporizadorConArduino", "AplicacionTemporizadorConArduino\AplicacionTemporizadorConArduino.csproj", "{D21C8A4F-2096-42C4-AA4C-3D66BE0F95AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D21C8A4F-2096-42C4-AA4C-3D66BE0F95AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D21C8A4F-2096-42C4-AA4C-3D66BE0F95AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D21C8A4F-2096-42C4-AA4C-3D66BE0F95AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D21C8A4F-2096-42C4-AA4C-3D66BE0F95AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {854C6B32-C127-423D-8BCF-2E583787CF1F}
+	EndGlobalSection
+EndGlobal

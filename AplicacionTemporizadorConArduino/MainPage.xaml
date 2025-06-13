@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             BackgroundColor="DeepSkyBlue"
+             x:Class="AplicacionTemporizadorConArduino.MainPage">
+                
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="30">
+
+            <Image Source="https://www.utmachala.edu.ec/portalwp/wp-content/uploads/2015/08/LOGO_OUT.png"  HeightRequest="115" Aspect="AspectFit" />
+
+            <Label Text=" UTMACH" FontSize="40" FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
+
+            <!-- Mensaje de estado dinámico -->
+            <Label x:Name="StatusLabel"
+                       Text="Desconectado"
+                       FontSize="30"
+                       TextColor="DarkRed"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"/>
+            <!-- Temporizador en una caja -->
+            <Frame BackgroundColor="Black"
+                   CornerRadius="10"
+                   Padding="15"
+                   HorizontalOptions="Center"
+                   HasShadow="True">
+                <Label x:Name="TimerLabel"
+                       Text="00:00"
+                       FontSize="50"
+                       TextColor="DarkRed"
+                       HorizontalOptions="Center"/>
+            </Frame>
+
+            <!-- Botones de control del temporizador -->
+            <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
+                <Button x:Name="PauseTimerBtn" Text="Pausar"
+                        Clicked="PauseTimerBtn_Clicked"
+                        BackgroundColor="OrangeRed"
+                        CornerRadius="12"
+                        WidthRequest="100"
+                        HeightRequest="50"/>
+
+                <ImageButton x:Name="StartTimerBtn" Source="balon.png"
+                             Clicked="StartTimerBtn_Clicked"
+                             BackgroundColor="Transparent"
+                             WidthRequest="90"
+                             HeightRequest="90"/>
+
+                <Button x:Name="ResetTimerBtn" Text="Reiniciar"
+                        Clicked="ResetTimerBtn_Clicked"
+                        BackgroundColor="OrangeRed"
+                        CornerRadius="12"
+                        WidthRequest="100"
+                        HeightRequest="50"/>
+            </HorizontalStackLayout>
+
+            <!-- Botones para establecer el tiempo -->
+            <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
+                <Button x:Name="Set14SecTimerBtn" Text="14 Segundos"
+                        Clicked="Set14SecTimerBtn_Clicked"
+                        BackgroundColor="OrangeRed"
+                        CornerRadius="12"
+                        WidthRequest="120"
+                        HeightRequest="50"/>
+
+                <Button x:Name="Set24SecTimerBtn" Text="24 Segundos"
+                        Clicked="Set24SecTimerBtn_Clicked"
+                        BackgroundColor="OrangeRed"
+                        CornerRadius="12"
+                        WidthRequest="120"
+                        HeightRequest="50"/>
+            </HorizontalStackLayout>
+
+            <!-- Botones de conexión Bluetooth -->
+            <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
+                <Button x:Name="ConnectBluetoothBtn" Text="Conectar"
+                        Clicked="ConnectBluetoothBtn_Clicked"
+                        BackgroundColor="Green"
+                        CornerRadius="12"
+                        WidthRequest="130"
+                        HeightRequest="50"/>
+
+                <Button x:Name="DisconnectBluetoothBtn" Text="Desconectar"
+                        Clicked="DisconnectBluetoothBtn_Clicked"
+                        BackgroundColor="DarkRed"
+                        CornerRadius="12"
+                        WidthRequest="130"
+                        HeightRequest="50"/>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
